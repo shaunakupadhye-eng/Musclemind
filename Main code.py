@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import os
 
+
+st.image("only.png", width=300)
+
 file = "users.csv"
 
 
@@ -13,16 +16,19 @@ username = st.text_input("Username")
 password = st.text_input("Password", type="password")
 age=st.number_input("Age", min_value=0, max_value=100, step=1)
 gender = st.selectbox("Gender", ["Male", "Female", "Other"])
-height = st.number_input("Height (cm)")
+height = st.number_input("Height (cm)", step=1)
 weight = st.number_input("Weight (kg)")
-activity_level = st.selectbox("Activity Level",["Low", "Moderate", "High"])
-goal = st.selectbox("Goal",["Muscle Gain", "Fat Loss", "Strength"])
+activity_level = st.selectbox("Activity Level",["Very low","Low", "Moderate", "High","Very High"])
+goal = st.selectbox("Main Goal",["Muscle Gain", "Fat Loss","Maintenance"])
 exp = st.selectbox("Experience",["Beginner", "Intermediate", "Advanced"])
 days_per_week = st.slider("Gym Days Per Week",1, 7, 3)
 
 if st.button("Register"):
 
     users = pd.read_csv(file)
+
+    if username in users["username"].values:
+        st.error("Username already exists")
 
     new_user = pd.DataFrame([{"username": username,"password": password,"age": age,"gender": gender,"height": height,"weight": weight,"activity_level": activity_level,"goal": goal,"exp": exp,"days_per_week": days_per_week}])
 
